@@ -24,7 +24,7 @@ A compact, mobile-first ordering experience for students around Meru University 
 
 ## Current backend boundary
 
-This release does not yet use an application database. The cart, saved location, customer details and editable order/request history are stored in the customer's browser. Quantity changes and deletions affect the local record; they do not change a request already received by the business until the customer sends the updated details on WhatsApp. The Orders screen is a local history and request handoff screen; it does not receive live staff status or rider GPS updates.
+This release does not yet use an application database. The cart, saved location, customer details and editable order/request history are stored in the customer's browser. Quantity changes and deletions affect the local record; they do not change a request already received by the business until the customer sends the updated details on WhatsApp. The Orders screen is a local history and request handoff screen. Customers can adjust saved shopping quantities, reopen an order to add products, or delete a local saved record. Those local edits do not update a request already received by the business until the customer sends the revised message in WhatsApp. The screen does not receive live staff status or rider GPS updates.
 
 Real shared order tracking requires a small backend with an order table and staff status updates. Live rider tracking additionally requires a rider-side location source and a realtime channel.
 
@@ -39,6 +39,7 @@ Automated M-PESA STK Push is not enabled. A production STK integration requires 
 1. Set VITE_WHATSAPP_NUMBER in Vercel to the business's WhatsApp number in international digits-only format (for example, 2547XXXXXXXX).
 2. Confirm every product, photo, availability label and price in src/data.ts with the owner. The seeded catalogue is illustrative.
 3. Confirm delivery coverage and the MUST campus starting map centre.
+4. Replace the Mafuko directory photo reference with a clear owner-approved photo of the current Mafuko sliced loaf packaging. The public sources reviewed did not provide a verifiable retail-pack image.
 4. Test checkout, the map and WhatsApp handoff on a real Android phone.
 5. Agree how the team will confirm delivery fees and customer orders.
 

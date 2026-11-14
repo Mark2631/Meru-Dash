@@ -646,7 +646,9 @@ function App() {
             <div className="more-list">
               {[
                 { title: "How do I order?", body: "Choose items, add them to your order, pin your delivery point and send the prepared message in WhatsApp." },
-                { title: "When do I pay?", body: "The current flow is pay on delivery. The team confirms the delivery fee and final total with you before dispatch." },
+                { title: "How do I know my order is accepted?", body: "A request saved on this phone is not yet accepted. Wait for the team to confirm item availability, the delivery fee and an estimated arrival time in WhatsApp." },
+                { title: "How do I check my delivery?", body: "When the rider arrives, check the items and the agreed total before paying. Message the team if anything is missing or does not match your order." },
+                { title: "When do I pay?", body: "The current flow is pay on delivery. Confirm the delivery fee and final total with the team on WhatsApp before dispatch." },
                 { title: "Can I request an unlisted item?", body: "Choose Quick errands and describe what you need. The team will confirm whether it can be arranged and tell you the price." },
                 { title: "Can I track the rider live?", body: "For now, order confirmation and delivery updates are shared in WhatsApp. Live rider tracking is not connected yet." },
               ].map((item, index) => (
