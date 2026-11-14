@@ -67,18 +67,22 @@ function formatOrderDate(value: string): string {
 
 function CourierLogo() {
   return (
-    <svg className="courier-logo" viewBox="0 0 124 70" role="img" aria-label="MeruDash delivery rider">
-      <g fill="none" stroke="#e8bd35" strokeWidth="4" strokeLinecap="round">
-        <path d="M5 24h22M1 34h18M10 44h17" />
+    <svg className="courier-logo" viewBox="0 0 132 72" role="img" aria-label="MeruDash green delivery motorbike">
+      <g fill="none" stroke="#d8b33e" strokeWidth="4.2" strokeLinecap="round">
+        <path d="M4 22h28M1 33h21M9 44h20" />
       </g>
-      <g fill="none" stroke="#0c623b" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="39" cy="52" r="12" /><circle cx="94" cy="52" r="12" />
-        <path d="M39 52 55 34l16 18H39l13-17h21l21 17M68 28h17l8 8M86 27l8-9 7 1M55 34l-5-11h-9" />
-        <path d="M57 19l-8-4 4-8 9 2 5 8-8 3" fill="#0c623b" />
-        <path d="M68 24l-7 11 16 4 7-10" fill="#0c623b" />
-        <path d="M73 39l-6 13M88 36l-7 16" />
+      <g fill="none" stroke="#087044" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="39" cy="53" r="12.5" />
+        <circle cx="99" cy="53" r="12.5" />
+        <path d="M39 53 53 35h23l23 18H39l14-18 11 18 13-25h17" />
+        <path d="M82 29h15l8 9M95 27l8-8 8 1" />
+        <path d="M60 14l-8-5 4-7 10 2 6 8-7 6" fill="#087044" stroke="#087044" />
+        <path d="M61 18l-7 14 17 5 10-11-7-8" fill="#087044" stroke="#087044" />
+        <path d="M63 30l-11 5M73 35l-5 18" />
+        <path d="M82 24h19l-4-12h-17z" fill="#087044" stroke="#087044" />
+        <path d="M86 16h10" stroke="#f2d36d" strokeWidth="2.5" />
       </g>
-      <path d="M88 18c4 0 7-2 8-5" fill="none" stroke="#e8bd35" strokeWidth="3" strokeLinecap="round" />
+      <path d="M111 14h13M114 23h10" stroke="#d8b33e" strokeWidth="3.4" strokeLinecap="round" />
     </svg>
   );
 }
@@ -90,6 +94,20 @@ function MessageCircleIcon() {
       <path d="M8.3 8.4c.3-.5.6-.5.9-.5h.4c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.5.6c-.2.2-.2.4 0 .6.5.9 1.3 1.6 2.2 2 .2.1.4.1.6-.1l.7-.8c.2-.2.4-.2.6-.1l1.5.7c.3.1.4.3.4.5 0 .3-.2.9-.5 1.2-.4.4-1 .6-1.5.6-1 0-2.4-.6-3.8-1.8-1.6-1.4-2.6-3.2-2.6-4.2 0-.6.2-1.1.5-1.4Z" fill="currentColor" />
     </svg>
   );
+}
+
+
+function ProductImage({ src, alt, compact = false }: { src: string; alt: string; compact?: boolean }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) {
+    return (
+      <div className={"product-placeholder" + (compact ? " compact" : "")} role="img" aria-label={alt}>
+        <ShoppingBag size={compact ? 18 : 24} />
+        <span>{alt}</span>
+      </div>
+    );
+  }
+  return <img src={src} alt={alt} loading="lazy" onError={() => setFailed(true)} />;
 }
 
 function BottomNavigation({ active, onChange }: { active: View; onChange: (view: View) => void }) {
@@ -125,7 +143,7 @@ function ProductCard({
   return (
     <article className="product-card">
       <div className="product-photo">
-        <img src={product.image} alt={product.name} loading="lazy" />
+        <ProductImage src={product.image} alt={product.name} />
         {product.label && <span className="product-label">{product.label}</span>}
       </div>
       <div className="product-details">
@@ -166,6 +184,7 @@ function App() {
   const [pickupLocation, setPickupLocation] = useState<PinLocation | null>(null);
   const [recipientLocation, setRecipientLocation] = useState<PinLocation | null>(null);
   const [commitmentConfirmed, setCommitmentConfirmed] = useState(false);
+  const [editingOrderId, setEditingOrderId] = useState<string | null>(null);
   const [toast, setToast] = useState("");
   const [moreExpanded, setMoreExpanded] = useState<number | null>(0);
 
@@ -239,9 +258,14 @@ function App() {
   };
 
   const saveOrder = (record: SavedOrder) => {
-    setOrders((current) => [record, ...current].slice(0, 30));
+    setOrders((current) => {
+      const exists = current.some((item) => item.id === record.id);
+      return exists
+        ? current.map((item) => item.id === record.id ? record : item)
+        : [record, ...current].slice(0, 30);
+    });
     setView("orders");
-    setToast("Request saved on this phone");
+    setToast(editingOrderId ? "Order changes saved" : "Request saved on this phone");
   };
 
   const submitShoppingOrder = (event: FormEvent<HTMLFormElement>) => {
@@ -253,7 +277,7 @@ function App() {
     if (!commitmentConfirmed) return setToast("Confirm you can receive and pay for this order");
     if (cart.length === 0) return setToast("Your order is empty");
 
-    const id = createOrderId();
+    const id = editingOrderId || createOrderId();
     const lines: SavedLine[] = cart.map((item) => ({
       id: item.product.id, name: item.product.name, price: item.product.price, quantity: item.quantity,
     }));
@@ -288,6 +312,7 @@ function App() {
     setCart([]);
     setCheckoutOpen(false);
     setCommitmentConfirmed(false);
+    setEditingOrderId(null);
     openWhatsApp(message);
   };
 
@@ -346,6 +371,77 @@ function App() {
   };
 
   const openSavedOrder = (order: SavedOrder) => openWhatsApp(order.message);
+
+  const updateSavedOrderQuantity = (orderId: string, productId: string, change: number) => {
+    setOrders((current) => current.map((order) => {
+      if (order.id !== orderId || order.kind !== "shopping") return order;
+      const items = order.items
+        .map((item) => item.id === productId ? { ...item, quantity: item.quantity + change } : item)
+        .filter((item) => item.quantity > 0);
+      const nextSubtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const mapLink = order.delivery
+        ? "https://www.google.com/maps?q=" + order.delivery.lat + "," + order.delivery.lng
+        : "";
+      const message = [
+        "MERUDASH UPDATED ORDER · " + order.id,
+        "",
+        "Name: " + order.name,
+        "Phone: " + order.phone,
+        "",
+        "ITEMS",
+        ...items.map((item) => item.quantity + " × " + item.name + " — " + formatKES(item.price * item.quantity)),
+        "",
+        "Items subtotal: " + formatKES(nextSubtotal),
+        "Delivery fee: Please confirm before dispatch.",
+        "Final total: To be confirmed with me on WhatsApp.",
+        "",
+        "DELIVERY POINT",
+        "Landmark: " + (order.delivery?.landmark || "See map pin"),
+        ...(mapLink ? ["Map: " + mapLink] : []),
+        "",
+        "Payment: Pay on delivery.",
+        "I confirm I can receive this order and pay the agreed total on delivery.",
+        "Please confirm availability and the delivery fee before dispatch.",
+      ].join("\n");
+      return { ...order, items, subtotal: nextSubtotal, message };
+    }));
+    setToast("Order updated. Send the latest details on WhatsApp.");
+  };
+
+  const editSavedOrder = (order: SavedOrder) => {
+    if (order.kind !== "shopping") {
+      setToast("Custom requests can be changed by sending an updated WhatsApp message.");
+      openWhatsApp(order.message);
+      return;
+    }
+    const nextCart = order.items
+      .map((line) => {
+        const product = PRODUCTS.find((item) => item.id === line.id);
+        return product ? { product, quantity: line.quantity } : null;
+      })
+      .filter((item): item is CartItem => item !== null);
+    if (nextCart.length === 0) {
+      setToast("This order has no catalogue items to edit.");
+      return;
+    }
+    setCart(nextCart);
+    if (order.delivery) {
+      setDeliveryLocation(order.delivery);
+      window.localStorage.setItem("merudash-location", JSON.stringify(order.delivery));
+    }
+    setCustomerName(order.name);
+    setCustomerPhone(order.phone);
+    setEditingOrderId(order.id);
+    setView("home");
+    setCartOpen(true);
+  };
+
+  const deleteSavedOrder = (orderId: string) => {
+    if (!window.confirm("Delete this saved order from this phone? This does not cancel an order already sent to the team.")) return;
+    setOrders((current) => current.filter((order) => order.id !== orderId));
+    if (editingOrderId === orderId) setEditingOrderId(null);
+    setToast("Saved order deleted from this phone");
+  };
 
   const mapTitle = mapTarget === "pickup"
     ? "Select collection point"
@@ -473,7 +569,7 @@ function App() {
               <div className="empty-state">
                 <span className="empty-state-icon"><ClipboardList size={29} /></span>
                 <h2>No orders yet</h2>
-                <p>Your orders and parcel requests will appear here after you send them to WhatsApp.</p>
+                <p>Orders you send to WhatsApp will be kept here on this phone.</p>
                 <button className="primary-button" onClick={() => setView("home")}>Find something <ArrowRight size={16} /></button>
               </div>
             ) : (
@@ -482,24 +578,37 @@ function App() {
                   <article className="order-card" key={order.id}>
                     <div className="order-card-top">
                       <div><span className="order-type">{order.kind === "shopping" ? "SHOPPING ORDER" : order.kind === "parcel" ? "PARCEL REQUEST" : "ERRAND REQUEST"}</span><strong>{order.id}</strong></div>
-                      <span className="order-state">Message ready</span>
+                      <span className="order-state">Saved on this phone</span>
                     </div>
                     <div className="order-card-meta"><span>{formatOrderDate(order.createdAt)}</span><span>{order.items.length ? order.items.reduce((sum, item) => sum + item.quantity, 0) + " items" : "Custom request"}</span></div>
                     {order.items.length > 0 && (
-                      <div className="order-lines">
-                        {order.items.slice(0, 3).map((item) => <div key={item.id}><span>{item.quantity} × {item.name}</span><b>{formatKES(item.price * item.quantity)}</b></div>)}
-                        {order.items.length > 3 && <small>+ {order.items.length - 3} more items</small>}
+                      <div className="order-lines order-lines-editable">
+                        {order.items.map((item) => (
+                          <div className="order-line-edit" key={item.id}>
+                            <span><strong>{item.name}</strong><small>{formatKES(item.price * item.quantity)}</small></span>
+                            <div className="quantity-control">
+                              <button onClick={() => updateSavedOrderQuantity(order.id, item.id, -1)} aria-label={"Remove one " + item.name}><Minus size={13} /></button>
+                              <b>{item.quantity}</b>
+                              <button onClick={() => updateSavedOrderQuantity(order.id, item.id, 1)} aria-label={"Add one " + item.name}><Plus size={13} /></button>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     )}
                     {order.subtotal > 0 && <div className="order-subtotal"><span>Items subtotal</span><strong>{formatKES(order.subtotal)}</strong></div>}
+                    {order.delivery && <p className="order-location-note"><MapPin size={13} /> {order.delivery.landmark || "MUST campus pin"}</p>}
                     <div className="order-tracking-strip">
-                      <span className="tracking-step done"><i><Check size={11} /></i><b>Request saved</b></span>
+                      <span className="tracking-step done"><i><Check size={11} /></i><b>Saved here</b></span>
                       <span className="tracking-line" />
-                      <span className="tracking-step"><i>2</i><b>Confirm in WhatsApp</b></span>
+                      <span className="tracking-step"><i>2</i><b>Send / confirm</b></span>
                       <span className="tracking-line" />
                       <span className="tracking-step"><i>3</i><b>Delivery</b></span>
                     </div>
-                    <button className="order-whatsapp-button" onClick={() => openSavedOrder(order)}>Continue in WhatsApp <ArrowRight size={16} /></button>
+                    <div className="order-card-actions">
+                      {order.kind === "shopping" && <button className="order-edit-button" onClick={() => editSavedOrder(order)}>Edit items <Plus size={14} /></button>}
+                      <button className="order-whatsapp-button" onClick={() => openSavedOrder(order)}>Continue in WhatsApp <ArrowRight size={16} /></button>
+                      <button className="order-delete-button" onClick={() => deleteSavedOrder(order.id)} aria-label={"Delete " + order.id}><X size={15} /></button>
+                    </div>
                   </article>
                 ))}
               </div>
@@ -568,7 +677,7 @@ function App() {
                 <div className="cart-lines">
                   {cart.map((item) => (
                     <div className="cart-line" key={item.product.id}>
-                      <img src={item.product.image} alt="" />
+                      <ProductImage src={item.product.image} alt={item.product.name} compact />
                       <div className="cart-line-copy"><strong>{item.product.name}</strong><span>{formatKES(item.product.price)} each</span><b>{formatKES(item.product.price * item.quantity)}</b></div>
                       <div className="quantity-control">
                         <button onClick={() => updateQuantity(item.product.id, -1)} aria-label={"Remove one " + item.product.name}><Minus size={14} /></button>
@@ -628,7 +737,7 @@ function App() {
                 <input type="checkbox" checked={commitmentConfirmed} onChange={(event) => setCommitmentConfirmed(event.target.checked)} />
                 <span>I’m placing a genuine order. I can receive it at this pin and pay the agreed total on delivery.</span>
               </label>
-              <button className="whatsapp-submit" type="submit"><MessageCircleIcon /> Send order on WhatsApp <ArrowRight size={17} /></button>
+              <button className="whatsapp-submit" type="submit"><MessageCircleIcon /> {editingOrderId ? "Update order on WhatsApp" : "Send order on WhatsApp"} <ArrowRight size={17} /></button>
               <p className="form-footnote">Your order is only dispatched after the team confirms availability and you approve the final delivery charge.</p>
             </form>
           </section>
