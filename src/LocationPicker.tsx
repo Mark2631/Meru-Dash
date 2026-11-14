@@ -59,7 +59,6 @@ export default function LocationPicker({
       style: MAP_STYLE,
       center: start,
       zoom: initial ? 16 : 15,
-      attributionControl: true,
     });
 
     mapRef.current = map;
