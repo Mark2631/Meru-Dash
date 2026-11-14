@@ -748,7 +748,7 @@ function App() {
                 <div>
                   <span className="section-kicker">LATEST REQUEST</span>
                   <strong>{orders[0].id}</strong>
-                  <small>Saved on this phone · Awaiting team confirmation</small>
+                  <small>Saved here · Send the request on WhatsApp</small>
                 </div>
                 <button onClick={() => openWhatsApp("Hello MeruDash, please share an update for my request " + orders[0].id + ".")}>
                   Ask for update <MessageCircleIcon />

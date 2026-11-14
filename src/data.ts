@@ -99,7 +99,7 @@ export const PRODUCTS: Product[] = [
     description: "Crispy chicken with golden fries",
     category: "Food & drinks",
     price: 280,
-    image: "https://glovo.dhmedia.io/image/stores-glovo/stores/e1d44d941e3af431c584305a775067c3a8deb7601ac9e53b35c2635928733657?t=W3sicmVzaXplIjp7Im1vZGUiOiJmaXQiLCJ3aWR0aCI6MTI4MCwiaGVpZ2h0IjoxMjB9fSx7IndlYnAiOnsicSI6ImxvdyJ9fV0%3D",
+    image: "https://images.unsplash.com/photo-1706711053549-f52f73a8960c?auto=format&fit=crop&fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDd8fHxlbnwwfHx8fHw%3D&ixlib=rb-4.1.0&q=60&w=1200",
     label: "Meal",
   },
   {
@@ -144,19 +144,19 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "juice",
-    name: "Fresh juice",
-    description: "Chilled fruit juice",
+    name: "Fresh orange juice",
+    description: "Freshly squeezed orange juice",
     category: "Food & drinks",
     price: 80,
-    image: "https://images.milkandmore.co.uk/image/upload/w_iw/f_auto%2Cq_auto%3Aeco/d_back_up_image.jpg%2Cw_1200%2Cc_scale/v1/products/72775_1.jpg",
+    image: "https://www.merkur.de/assets/images/35/737/35737078-ein-glas-orangensaft-das-mit-einer-orangenscheibe-verziert-ist-daneben-liegen-zwei-weitere-orangen-3Zec.jpg",
   },
   {
     id: "energy-drink",
-    name: "Energy drink",
-    description: "Cold energy drink",
+    name: "Monster Energy",
+    description: "Chilled energy drink can",
     category: "Food & drinks",
     price: 100,
-    image: "https://d16zmt6hgq1jhj.cloudfront.net/product/6059/So02KHcdbylgZPhG6SZsznsGHdvHYrk4OwRF9Acx.jpg",
+    image: "https://oddysphere.at/cdn/shop/files/Monster_Energy.jpg?v=1747123710&width=1200",
   },
   {
     id: "instant-noodles",
@@ -177,11 +177,11 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "eggs",
-    name: "Eggs",
-    description: "Everyday kitchen essential",
+    name: "Eggs (tray)",
+    description: "Tray of fresh brown eggs",
     category: "Essentials",
     price: 30,
-    image: "https://cdn.mafrservices.com/sys-master-root/hf8/hea/52644034871326/8033_main.jpg?im=Resize%3D400",
+    image: "https://cdn.mafrservices.com/sys-master-root/h93/h03/12456986509342/72129_Main.jpg?im=Resize%3D480",
   },
   {
     id: "milk",
@@ -189,7 +189,7 @@ export const PRODUCTS: Product[] = [
     description: "Milk for tea or breakfast",
     category: "Essentials",
     price: 70,
-    image: "https://cdnprod.mafretailproxy.com/sys-master-root/hfc/hef/27062194438174/43281_main.jpg_480Wx480H",
+    image: "https://cdn.mafrservices.com/sys-master-root/h1f/h18/27062188474398/43281_main.jpg?im=Resize%3D480",
   },
   {
     id: "maize-flour",
@@ -210,10 +210,10 @@ export const PRODUCTS: Product[] = [
   {
     id: "cooking-oil",
     name: "Cooking oil 500ml",
-    description: "Cooking oil for your kitchen",
+    description: "Bahari Fry vegetable cooking oil",
     category: "Essentials",
     price: 140,
-    image: "https://eastmatt.com/ios1/itemimages/foodstuffs_two.jpeg",
+    image: "https://cdn.mafrservices.com/sys-master-root/h1b/h17/16872081752094/38366_main.jpg?im=Resize%3D480",
   },
   {
     id: "toiletries",
