@@ -24,7 +24,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import LocationPicker from "./LocationPicker";
-import { CAMPUS_CENTER, formatKES, PRODUCTS, type PinLocation, type Product, type ProductCategory } from "./data";
+import { formatKES, PRODUCTS, type PinLocation, type Product, type ProductCategory } from "./data";
 
 type CartItem = { product: Product; quantity: number };
 type RequestType = "errand" | "parcel";
