@@ -80,10 +80,10 @@ export const PRODUCTS: Product[] = [
   {
     id: "boiled-egg",
     name: "Boiled egg",
-    description: "Simple, filling snack",
+    description: "A freshly boiled egg",
     category: "Food & drinks",
     price: 30,
-    image: "https://cdn.mafrservices.com/sys-master-root/hf8/hea/52644034871326/8033_main.jpg?im=Resize%3D400",
+    image: "https://images.pexels.com/photos/19409033/pexels-photo-19409033.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     id: "beef-burger",
@@ -132,7 +132,7 @@ export const PRODUCTS: Product[] = [
     description: "Chilled soft drink",
     category: "Food & drinks",
     price: 60,
-    image: "https://mybigorder.com/public/uploads/products/photos/3gXRF1Ni0lW0CJBFBEkYAm6D7nTADjQmzp1mtc2x.jpeg",
+    image: "https://www.tawalasupermarket.co.ke/1918-large_default/coca-cola-coke-pet-bottle-500ml.jpg",
   },
   {
     id: "water",
@@ -169,10 +169,10 @@ export const PRODUCTS: Product[] = [
   {
     id: "bread",
     name: "Mafuko sliced bread",
-    description: "Pre-sliced white loaf from a Meru bakery",
+    description: "Pre-sliced white loaf from a Meru bakery. Pack image to be confirmed by the owner.",
     category: "Essentials",
     price: 80,
-    image: "https://article.innovamarketinsights360.com/articleimgs/article_images/637165823092782555white%20bread%20square.jpeg",
+    image: "https://cdn.mafrservices.com/sys-master-root/ha4/h71/26930055479326/163643_main.jpg?im=Resize%3D480",
     label: "Meru bakery",
   },
   {
@@ -267,10 +267,10 @@ export const PRODUCTS: Product[] = [
   {
     id: "biscuits",
     name: "Biscuits",
-    description: "A snack for study breaks",
+    description: "A pack of tea biscuits for study breaks",
     category: "Essentials",
     price: 50,
-    image: "https://cdn.mafrservices.com/pim-content/KEN/media/product/212720/1728986403/212720_main.jpg?im=Resize%3D480",
+    image: "https://cdn.mafrservices.com/sys-master-root/hfc/h23/12455758430238/21745_Main.jpg?im=Resize%3D480",
   },
 ];
 

@@ -292,6 +292,7 @@ function App() {
       "Final total: To be confirmed with me on WhatsApp.",
       "",
       "DELIVERY POINT",
+      "Area: Meru University / MUST Main Campus",
       "Landmark: " + (deliveryLocation.landmark || "See map pin"),
       "Coordinates: " + deliveryLocation.lat.toFixed(6) + ", " + deliveryLocation.lng.toFixed(6),
       "Map: " + mapLink,
@@ -792,7 +793,7 @@ function App() {
                 { title: "How do I check my delivery?", body: "When the rider arrives, check the items and the agreed total before paying. Message the team if anything is missing or does not match your order." },
                 { title: "When do I pay?", body: "The current flow is pay on delivery. Confirm the delivery fee and final total with the team on WhatsApp before dispatch." },
                 { title: "Can I request an unlisted item?", body: "Choose Quick errands and describe what you need. The team will confirm whether it can be arranged and tell you the price." },
-                { title: "Can I track the rider live?", body: "For now, order confirmation and delivery updates are shared in WhatsApp. Live rider tracking is not connected yet." },
+                { title: "How do I follow my delivery?", body: "The Location tab keeps your pinned meeting point and lets you ask the team for an update on WhatsApp. Live rider GPS is not connected yet." },
               ].map((item, index) => (
                 <div className={"more-list-item" + (moreExpanded === index ? " expanded" : "")} key={item.title}>
                   <button onClick={() => setMoreExpanded(moreExpanded === index ? null : index)} aria-expanded={moreExpanded === index}>
