@@ -40,8 +40,8 @@ Automated M-PESA STK Push is not enabled. A production STK integration requires 
 2. Confirm every product, photo, availability label and price in src/data.ts with the owner. The seeded catalogue is illustrative.
 3. Confirm delivery coverage and the MUST campus starting map centre.
 4. Replace the Mafuko directory photo reference with a clear owner-approved photo of the current Mafuko sliced loaf packaging. The public sources reviewed did not provide a verifiable retail-pack image.
-4. Test checkout, the map and WhatsApp handoff on a real Android phone.
-5. Agree how the team will confirm delivery fees and customer orders.
+5. Test checkout, the map and WhatsApp handoff on a real Android phone.
+6. Agree how the team will confirm delivery fees and customer orders.
 
 ## Local setup
 

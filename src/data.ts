@@ -34,7 +34,7 @@ export const PRODUCTS: Product[] = [
     description: "A filling campus meal",
     category: "Food & drinks",
     price: 120,
-    image: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=85",
+    image: "https://7daysmeal.com/meals/image/2025/03/chapati-beans-stew-recipe.jpg",
   },
   {
     id: "smocha",
@@ -51,7 +51,7 @@ export const PRODUCTS: Product[] = [
     description: "Golden savoury snack",
     category: "Food & drinks",
     price: 40,
-    image: "https://www.booknbook.co.ke/storage/public/restaurants/358-jahazi-coffee-house/profile/438160209_823552939789639_7220117977974863933_n.jpg",
+    image: "https://i.pinimg.com/736x/d3/25/2a/d3252ab797889a24696eb41191e6d807.jpg",
   },
   {
     id: "smokie",
@@ -59,7 +59,7 @@ export const PRODUCTS: Product[] = [
     description: "A quick bite between classes",
     category: "Food & drinks",
     price: 50,
-    image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=85",
+    image: "https://kenyapeaks.com/assets/uploads/smokie-pasua-in-nairobi-street-foods_6890d930c2b05.webp",
   },
   {
     id: "chips-plain",
@@ -116,7 +116,7 @@ export const PRODUCTS: Product[] = [
     description: "Soft, freshly made mandazi",
     category: "Food & drinks",
     price: 30,
-    image: "https://images.unsplash.com/photo-1608198093002-ad4e005484df?auto=format&fit=crop&w=900&q=85",
+    image: "https://image.okayafrica.com/115952.webp?format=jpg&height=642&imageId=115952&width=960",
   },
   {
     id: "sausage",
