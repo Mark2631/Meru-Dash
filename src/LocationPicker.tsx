@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import maplibregl from "maplibre-gl";
+import maplibregl, { setWorkerUrl } from "maplibre-gl";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
+setWorkerUrl(workerUrl);
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Crosshair, MapPin, Navigation, X } from "lucide-react";
 import { CAMPUS_CENTER, MAP_STYLE, type PinLocation } from "./data";

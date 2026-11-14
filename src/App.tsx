@@ -330,14 +330,14 @@ function App() {
           <div className="hero-visual">
             <div className="hero-photo-frame">
               <img
-                src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1300&q=90"
-                alt="Freshly prepared meal"
+                src="https://i0.wp.com/www.must.ac.ke/wp-content/uploads/2020/09/Main-Administration-Block.jpg?resize=1200%2C900&ssl=1"
+                alt="Meru University of Science and Technology main campus"
                 className="hero-photo"
               />
               <div className="hero-image-shade" />
               <div className="hero-image-caption">
                 <span className="caption-dot" />
-                <span><strong>Good food, closer.</strong><small>Order a little something today.</small></span>
+                <span><strong>Right around MUST.</strong><small>Campus convenience, delivered.</small></span>
               </div>
             </div>
             <div className="floating-note floating-note-top">

@@ -115,8 +115,8 @@ export const formatKES = (amount: number) =>
   "KSh " + Math.round(amount).toLocaleString("en-KE");
 
 export const CAMPUS_CENTER = {
-  lat: 0.1428,
-  lng: 37.7106,
+  lat: 0.134898,
+  lng: 37.708432,
 };
 
 export type PinLocation = {
