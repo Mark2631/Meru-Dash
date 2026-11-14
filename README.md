@@ -6,7 +6,9 @@ A compact, mobile-first ordering experience for students around Meru University 
 
 - Short home screen with campus selector, campus image, direct search and four quick actions.
 - Four popular products shown immediately, with the remaining catalogue in a horizontal swipe row.
-- Food and essentials catalogue, search, quantity controls and review-order sheet.
+- Expanded campus catalogue covering Kenyan fast foods, drinks and everyday essentials, with search and quantity controls.
+- Four popular items shown first; the rest can be browsed in the horizontal catalogue strip.
+- Orders tab supports local quantity edits, reopening a shopping order to add items, and deleting a saved local record.
 - Quick errand and parcel request flows with map pins.
 - MapLibre location selection, optional current-location detection and landmark notes.
 - WhatsApp handoff with an order reference and a clear customer commitment.
@@ -22,13 +24,13 @@ A compact, mobile-first ordering experience for students around Meru University 
 
 ## Current backend boundary
 
-This release does not yet use an application database. The cart, saved location, customer details and order/request history are stored in the customer's browser. The Orders screen is a local history and request handoff screen; it does not receive live staff status or rider GPS updates.
+This release does not yet use an application database. The cart, saved location, customer details and editable order/request history are stored in the customer's browser. Quantity changes and deletions affect the local record; they do not change a request already received by the business until the customer sends the updated details on WhatsApp. The Orders screen is a local history and request handoff screen; it does not receive live staff status or rider GPS updates.
 
 Real shared order tracking requires a small backend with an order table and staff status updates. Live rider tracking additionally requires a rider-side location source and a realtime channel.
 
 ## Payments and order commitment
 
-The current customer-facing payment method is pay on delivery. Checkout requires a valid Kenyan mobile number, a pinned delivery location and an explicit confirmation that the customer can receive the order and pay the agreed total. The WhatsApp message asks the team to confirm availability and the delivery fee before dispatch.
+The current customer-facing payment method is pay on delivery. The WhatsApp contact number is configured in Vercel through VITE_WHATSAPP_NUMBER. Product prices and stock are demo seed data and must be checked with the owner before taking live orders. Checkout requires a valid Kenyan mobile number, a pinned delivery location and an explicit confirmation that the customer can receive the order and pay the agreed total. The WhatsApp message asks the team to confirm availability and the delivery fee before dispatch.
 
 Automated M-PESA STK Push is not enabled. A production STK integration requires the business's own Safaricom Daraja application credentials, a valid Till/Paybill and an HTTPS callback endpoint. Credentials must be held by a server-side function, never in browser code. A confirmed callback is required before the app can display a payment as successful.
 

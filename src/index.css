@@ -348,3 +348,56 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width: 370px) {
   .map-hint { display: none; }
 }
+
+
+/* Product image fallback, compact cart and order actions */
+.courier-logo { width: 94px; height: 54px; flex: 0 0 auto; }
+.product-photo > img { width: 100%; height: 100%; object-fit: cover; }
+.product-placeholder {
+  width: 100%; height: 100%; min-width: 0; padding: 10px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 7px; color: #6c8872; text-align: center;
+  background: linear-gradient(145deg, #edf4e8, #f8f1de);
+}
+.product-placeholder svg { flex: 0 0 auto; opacity: .78; }
+.product-placeholder span { max-width: 100%; color: #66776a; font-size: 9px; font-weight: 700; line-height: 1.25; }
+.product-placeholder.compact { width: 59px; height: 59px; padding: 4px; border-radius: 11px; gap: 2px; }
+.product-placeholder.compact span { font-size: 6px; }
+.cart-line > .product-placeholder { flex: 0 0 auto; }
+.checkout-item-line > .product-placeholder { width: 48px; height: 42px; flex: 0 0 auto; padding: 3px; border-radius: 8px; }
+.checkout-item-line > .product-placeholder span { font-size: 6px; }
+
+.order-lines-editable { gap: 0; }
+.order-line-edit {
+  min-height: 47px; display: flex; align-items: center; justify-content: space-between;
+  gap: 10px; padding: 6px 0; border-bottom: 1px solid #eff0e9;
+}
+.order-line-edit:last-of-type { border-bottom: 0; }
+.order-line-edit > span { min-width: 0; display: grid; gap: 3px; }
+.order-line-edit > span strong { overflow: hidden; color: #354338; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.order-line-edit > span small { color: #7f8c80; font-size: 9px; }
+.order-line-edit .quantity-control { flex: 0 0 auto; min-height: 28px; gap: 5px; }
+.order-line-edit .quantity-control button { width: 25px; height: 25px; }
+.order-card-actions { margin-top: 12px; display: flex; align-items: center; gap: 7px; }
+.order-card-actions .order-whatsapp-button { flex: 1; width: auto; margin: 0; min-height: 39px; }
+.order-edit-button {
+  min-height: 39px; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  border: 1px solid #dce8d8; border-radius: 10px; color: #0b6840; background: #f5faf1;
+  font-size: 9px; font-weight: 800; white-space: nowrap;
+}
+.order-delete-button {
+  width: 37px; height: 39px; flex: 0 0 auto; display: grid; place-items: center;
+  border: 1px solid #f0d9d4; border-radius: 10px; color: #a24e3e; background: #fff8f6;
+}
+.order-location-note {
+  margin: 9px 0 0; display: flex; align-items: center; gap: 5px;
+  color: #77857a; font-size: 9px;
+}
+.order-location-note svg { color: var(--green); flex: 0 0 auto; }
+
+@media (max-width: 390px) {
+  .courier-logo { width: 82px; }
+  .order-card-actions { gap: 5px; }
+  .order-edit-button { padding: 0 7px; font-size: 8px; }
+  .order-card-actions .order-whatsapp-button { font-size: 8px; gap: 5px; }
+}
