@@ -719,7 +719,7 @@ function App() {
                 <div className="checkout-items-heading"><strong>Items</strong><span>{itemCount} items</span></div>
                 {cart.map((item) => (
                   <div className="checkout-item-line" key={item.product.id}>
-                    <img src={item.product.image} alt="" />
+                    <ProductImage src={item.product.image} alt={item.product.name} compact />
                     <div><strong>{item.product.name}</strong><small>Qty: {item.quantity}</small></div>
                     <b>{formatKES(item.product.price * item.quantity)}</b>
                   </div>
