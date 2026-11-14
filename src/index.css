@@ -268,3 +268,83 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+
+/* Map picker: kept as a focused sheet over checkout or service request */
+.modal-backdrop.map-backdrop {
+  position: fixed; inset: 0; z-index: 45; padding: 18px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(16, 32, 22, .48); backdrop-filter: blur(4px);
+}
+.location-modal {
+  width: min(760px, 100%); max-height: min(94vh, 900px); overflow: hidden;
+  display: flex; flex-direction: column; border-radius: 20px;
+  background: #fffefa; box-shadow: 0 25px 80px rgba(0,0,0,.22);
+}
+.modal-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.modal-heading h2 { margin: 7px 0 0; color: #243229; font: 800 22px "Manrope",sans-serif; letter-spacing: -.05em; }
+.location-heading { padding: 20px 22px 14px; margin: 0; }
+.location-heading h2 { font-size: 19px; }
+.location-heading p { margin: 6px 0 0; color: #7a867c; font-size: 10px; line-height: 1.5; }
+.map-wrap { position: relative; min-height: 280px; height: min(42vh, 390px); flex: 1 1 auto; background: #e9eee5; }
+.map-canvas { width: 100%; height: 100%; }
+.map-toolbar {
+  position: absolute; z-index: 2; top: 12px; left: 12px; right: 12px;
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  pointer-events: none;
+}
+.map-toolbar > * { pointer-events: auto; }
+.use-location-button {
+  min-height: 40px; padding: 0 12px; display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid #e0e5dd; border-radius: 10px; color: var(--green-dark);
+  background: rgba(255,255,255,.97); box-shadow: 0 4px 12px rgba(31,57,38,.1);
+  font-size: 10px; font-weight: 800; white-space: nowrap;
+}
+.use-location-button:disabled { opacity: .65; cursor: wait; }
+.map-hint {
+  min-height: 36px; padding: 0 10px; display: inline-flex; align-items: center; gap: 5px;
+  border-radius: 9px; color: #58675b; background: rgba(255,255,255,.94);
+  font-size: 9px; white-space: nowrap;
+}
+.map-error {
+  position: absolute; left: 14px; right: 14px; bottom: 12px; padding: 10px 12px;
+  border-radius: 9px; color: #66551c; background: #fff6d8; font-size: 9px;
+}
+.location-form { padding: 16px 20px 18px; flex: 0 0 auto; }
+.pin-summary { display: flex; align-items: center; gap: 10px; margin-bottom: 13px; }
+.pin-summary-icon {
+  width: 36px; height: 36px; display: grid; place-items: center; flex: 0 0 auto;
+  border-radius: 10px; color: var(--green); background: #edf5eb;
+}
+.pin-summary > div { min-width: 0; flex: 1; display: grid; gap: 4px; }
+.pin-summary strong { color: #344238; font-size: 10px; }
+.pin-summary span:not(.pin-summary-icon) { color: #8b968d; font-size: 9px; }
+.text-link { color: var(--green); font-size: 9px; font-weight: 800; }
+.field-label { display: flex; align-items: center; gap: 8px; margin: 0 0 7px; color: #4f5b52; font-size: 10px; font-weight: 800; }
+.field-label span { color: #9aa39a; font-weight: 500; }
+.text-field {
+  width: 100%; min-height: 43px; padding: 0 12px; outline: 0;
+  border: 1px solid #dedfd7; border-radius: 10px; color: #28362d;
+  background: #fff; font-size: 11px;
+}
+.text-field:focus { border-color: #83ad8d; box-shadow: 0 0 0 3px rgba(39,125,69,.09); }
+.field-error { margin: 7px 0 0; color: #a44c38; font-size: 9px; }
+.location-form .primary-button { margin-top: 12px; }
+.map-attribution-note { margin: 8px 0 0; color: #a0a99f; font-size: 7px; text-align: center; }
+
+@media (max-width: 600px) {
+  .modal-backdrop.map-backdrop { padding: 9px; }
+  .location-modal { max-height: 96vh; border-radius: 15px; }
+  .location-heading { padding: 15px 15px 11px; }
+  .location-heading h2 { font-size: 17px; }
+  .map-wrap { height: 39vh; min-height: 245px; }
+  .map-toolbar { top: 8px; left: 8px; right: 8px; }
+  .map-hint { min-height: 33px; padding: 0 7px; font-size: 8px; }
+  .use-location-button { min-height: 36px; padding: 0 8px; font-size: 9px; }
+  .location-form { padding: 12px 14px 14px; }
+  .pin-summary { margin-bottom: 10px; }
+  .location-form .primary-button { min-height: 43px; }
+}
+@media (max-width: 370px) {
+  .map-hint { display: none; }
+}
