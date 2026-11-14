@@ -1,69 +1,57 @@
 # MeruDash
 
-A mobile-first campus ordering experience for Meru University of Science and Technology. Customers can browse food and essentials, place custom requests, pin a collection or delivery point on an interactive map, and send a structured order to WhatsApp.
+A compact, mobile-first ordering experience for students around Meru University of Science and Technology (MUST).
 
-## Product scope
+## Customer experience
 
-- Customer-facing storefront for MUST students.
-- Product search, category filters, cart and quantity controls.
-- Delivery location picker with current-location support and manual draggable pin.
-- Landmark notes and direct map links in order messages.
-- Separate collection and recipient pins for parcel requests.
-- WhatsApp checkout with pay-on-delivery wording.
-- Responsive desktop and mobile layouts.
-- No required customer account.
+- Short home screen with campus selector, campus image, direct search and four quick actions.
+- Four popular products shown immediately, with the remaining catalogue in a horizontal swipe row.
+- Food and essentials catalogue, search, quantity controls and review-order sheet.
+- Quick errand and parcel request flows with map pins.
+- MapLibre location selection, optional current-location detection and landmark notes.
+- WhatsApp handoff with an order reference and a clear customer commitment.
+- Home, Orders, Location and More navigation.
+- Local order history on the same device; no sign-up required.
 
 ## Technology
 
-- React and TypeScript.
-- Vite.
-- MapLibre GL JS.
-- OpenFreeMap map tiles with OpenStreetMap data.
-- Lucide icons.
-- Vercel deployment.
+- React, TypeScript and Vite.
+- MapLibre GL JS with OpenFreeMap tiles and OpenStreetMap data.
+- Vercel production hosting.
+- WhatsApp click-to-chat handoff.
 
-## Backend decision
+## Current backend boundary
 
-This first release intentionally does not require a database or application backend. Product data is local configuration, the cart is stored in the customer's browser, location coordinates stay in the current browser session, and the order is handed to WhatsApp. No order history or live rider location is stored.
+This release does not yet use an application database. The cart, saved location, customer details and order/request history are stored in the customer's browser. The Orders screen is a local history and request handoff screen; it does not receive live staff status or rider GPS updates.
 
-A backend becomes necessary for real-time rider tracking, shared order status, customer order history, online payment callbacks, or a staff dashboard. Those capabilities should be added only when they are required.
+Real shared order tracking requires a small backend with an order table and staff status updates. Live rider tracking additionally requires a rider-side location source and a realtime channel.
+
+## Payments and order commitment
+
+The current customer-facing payment method is pay on delivery. Checkout requires a valid Kenyan mobile number, a pinned delivery location and an explicit confirmation that the customer can receive the order and pay the agreed total. The WhatsApp message asks the team to confirm availability and the delivery fee before dispatch.
+
+Automated M-PESA STK Push is not enabled. A production STK integration requires the business's own Safaricom Daraja application credentials, a valid Till/Paybill and an HTTPS callback endpoint. Credentials must be held by a server-side function, never in browser code. A confirmed callback is required before the app can display a payment as successful.
+
+## Configuration before customer launch
+
+1. Set VITE_WHATSAPP_NUMBER in Vercel to the business's WhatsApp number in international digits-only format (for example, 2547XXXXXXXX).
+2. Confirm every product, photo, availability label and price in src/data.ts with the owner. The seeded catalogue is illustrative.
+3. Confirm delivery coverage and the MUST campus starting map centre.
+4. Test checkout, the map and WhatsApp handoff on a real Android phone.
+5. Agree how the team will confirm delivery fees and customer orders.
 
 ## Local setup
 
-1. Install Node.js 20 or newer.
-2. Install dependencies with npm install.
+1. Install Node.js 22 or newer.
+2. Run npm install.
 3. Copy .env.example to .env.local.
-4. Set VITE_WHATSAPP_NUMBER to the business WhatsApp number in international format, digits only (for example, 2547XXXXXXXX).
-5. Start the site with npm run dev.
-6. Check production output with npm run build.
-
-## Configuration before launch
-
-- Replace the illustrative product catalogue and prices in src/data.ts with the confirmed menu and service details.
-- Set VITE_WHATSAPP_NUMBER to the business's verified WhatsApp number.
-- Confirm delivery coverage and the campus map pin with the owner.
-- Review the wording and pay-on-delivery process with the owner.
-- Test the map on HTTPS and on a real Android device.
-
-If the WhatsApp number is not configured, the checkout opens WhatsApp's generic share flow so the reviewer can choose a chat. Set the number before sharing the live site with customers.
-
-## Maps and location
-
-The map uses MapLibre GL JS with the public OpenFreeMap style. OpenFreeMap allows commercial use and does not require an API key, but its public instance does not provide an uptime SLA or personalized support. Keep the map style URL in src/data.ts so a provider can be changed without rewriting the location flow.
-
-The browser geolocation permission is optional. Students can always move the map pin manually. A landmark note is also available because a coordinate alone may not identify the best handoff point.
-
-The map stores the selected coordinates in client-side state and includes Google Maps links in the WhatsApp message. It does not track a rider's live position. Real-time rider tracking requires a rider-side location source and a backend/realtime service.
-
-## Important notes
-
-Catalogue prices in the initial build are illustrative and must be confirmed before production use. Delivery fees are not invented by the interface; the final fee is confirmed with the customer on WhatsApp before dispatch.
-
-Map data attribution is displayed in the location picker. The OpenFreeMap style includes attribution controls.
+4. Set VITE_WHATSAPP_NUMBER.
+5. Run npm run dev.
+6. Run npm run build before deployment.
 
 ## Scripts
 
 - npm run dev — local development.
-- npm run typecheck — TypeScript checks.
+- npm run typecheck — TypeScript check.
 - npm run build — typecheck and production build.
 - npm run preview — serve the local production build.
