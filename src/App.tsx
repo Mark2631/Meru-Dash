@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import {
   ArrowRight,
@@ -23,7 +23,7 @@ import {
   MessageCircle,
   ShieldCheck,
 } from "lucide-react";
-import LocationPicker from "./LocationPicker";
+const LocationPicker = lazy(() => import("./LocationPicker"));
 import { formatKES, PRODUCTS, type PinLocation, type Product, type ProductCategory } from "./data";
 
 type CartItem = { product: Product; quantity: number };
@@ -719,14 +719,18 @@ function App() {
         </div>
       )}
 
-      <LocationPicker
-        open={locationOpen}
-        title={mapTitle}
-        helper={mapHelper}
-        initial={initialMapLocation}
-        onClose={() => setLocationOpen(false)}
-        onConfirm={handlePinConfirm}
-      />
+      {locationOpen && (
+        <Suspense fallback={<div className="map-load-overlay"><div className="map-load-card"><span className="map-load-spinner" />Opening map…</div></div>}>
+          <LocationPicker
+            open={locationOpen}
+            title={mapTitle}
+            helper={mapHelper}
+            initial={initialMapLocation}
+            onClose={() => setLocationOpen(false)}
+            onConfirm={handlePinConfirm}
+          />
+        </Suspense>
+      )}
 
       {toast && <div className="toast-message"><Check size={16} /> {toast}</div>}
     </div>
