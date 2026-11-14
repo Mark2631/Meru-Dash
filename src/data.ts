@@ -51,7 +51,7 @@ export const PRODUCTS: Product[] = [
     description: "Golden savoury snack",
     category: "Food & drinks",
     price: 40,
-    image: "https://i.pinimg.com/736x/d3/25/2a/d3252ab797889a24696eb41191e6d807.jpg",
+    image: "https://media.easemytrip.com/media/Blog/International/638828403147185779/6388284031471857796L1Of3.png",
   },
   {
     id: "smokie",
@@ -67,7 +67,7 @@ export const PRODUCTS: Product[] = [
     description: "Freshly fried golden chips",
     category: "Food & drinks",
     price: 100,
-    image: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=900&q=85",
+    image: "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy%2Cf_auto%2Cq_auto%2Cw_300%2Ch_300%2Ce_grayscale%2Cc_fit/FOOD_CATALOG/IMAGES/CMS/2024/11/7/fd94d3de-be4f-4e6d-b1b8-ceb4f585e683_9b48d2c5-326a-4f20-bdd1-3da7559f12f6.jpg",
   },
   {
     id: "bhajia",
@@ -75,7 +75,7 @@ export const PRODUCTS: Product[] = [
     description: "Crispy potato bites",
     category: "Food & drinks",
     price: 120,
-    image: "https://www.booknbook.co.ke/storage/public/restaurants/358-jahazi-coffee-house/profile/438160209_823552939789639_7220117977974863933_n.jpg",
+    image: "https://www.aromaandessence.com/wp-content/uploads/2023/01/Bhajia-final-jpg.webp",
   },
   {
     id: "boiled-egg",
@@ -83,7 +83,7 @@ export const PRODUCTS: Product[] = [
     description: "Simple, filling snack",
     category: "Food & drinks",
     price: 30,
-    image: "https://image.idntimes.com/post/20260305/hampers-sembako-mini-bahan-dapur_9e57a671-b0b7-4938-ba8a-e036aaa834ac.jpg",
+    image: "https://cdn.mafrservices.com/sys-master-root/hf8/hea/52644034871326/8033_main.jpg?im=Resize%3D400",
   },
   {
     id: "beef-burger",
@@ -91,7 +91,7 @@ export const PRODUCTS: Product[] = [
     description: "Burger with a side of fries",
     category: "Food & drinks",
     price: 250,
-    image: "https://glovo.dhmedia.io/image/stores-glovo/stores/e1d44d941e3af431c584305a775067c3a8deb7601ac9e53b35c2635928733657?t=W3sicmVzaXplIjp7Im1vZGUiOiJmaXQiLCJ3aWR0aCI6MTI4MCwiaGVpZ2h0IjoxMjB9fSx7IndlYnAiOnsicSI6ImxvdyJ9fV0%3D",
+    image: "https://glovo.dhmedia.io/image/global-menu-service/GV_KE/vendor/474961/PRODUCT/41612080958/8701d070-1032-4bdf-8e4e-281a06b5d5eb.jpg",
   },
   {
     id: "chicken-chips",
@@ -116,7 +116,7 @@ export const PRODUCTS: Product[] = [
     description: "Soft, freshly made mandazi",
     category: "Food & drinks",
     price: 30,
-    image: "https://image.okayafrica.com/115952.webp?format=jpg&height=642&imageId=115952&width=960",
+    image: "https://dishanddelights.com/wp-content/uploads/2025/10/pakoblog__Easy_Mandazi_Recipe_front_angle_shot_low_angle_shot_k_bf160adb-0cad-48a5-85f4-4dda91a7c5b0.webp",
   },
   {
     id: "sausage",
@@ -124,15 +124,15 @@ export const PRODUCTS: Product[] = [
     description: "Hot sausage snack",
     category: "Food & drinks",
     price: 60,
-    image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=85",
+    image: "https://kryta.dk/Admin/Public/GetImage.ashx?format=webp&image=%2FFiles%2FImages%2FThuringer+bratwurst+ai.png&width=640",
   },
   {
     id: "soda",
-    name: "Soda 500ml",
+    name: "Coca-Cola 500ml",
     description: "Chilled soft drink",
     category: "Food & drinks",
     price: 60,
-    image: "https://jdssupercare.com/cdn/shop/files/8fd73c5e-00ed-461e-81e0-f1401ef09485.jpg?v=1756217862",
+    image: "https://mybigorder.com/public/uploads/products/photos/3gXRF1Ni0lW0CJBFBEkYAm6D7nTADjQmzp1mtc2x.jpeg",
   },
   {
     id: "water",
@@ -140,7 +140,7 @@ export const PRODUCTS: Product[] = [
     description: "Bottled drinking water",
     category: "Food & drinks",
     price: 40,
-    image: "https://images.unsplash.com/photo-1564419320461-6870880221ad?auto=format&fit=crop&w=900&q=85",
+    image: "https://bf1af2.akinoncloudcdn.com/products/2024/09/23/134773/233124c0-1b59-4cf9-b20f-ac865accf5fc_size3840_cropCenter.jpg",
   },
   {
     id: "juice",
@@ -148,7 +148,7 @@ export const PRODUCTS: Product[] = [
     description: "Chilled fruit juice",
     category: "Food & drinks",
     price: 80,
-    image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?auto=format&fit=crop&w=900&q=85",
+    image: "https://images.milkandmore.co.uk/image/upload/w_iw/f_auto%2Cq_auto%3Aeco/d_back_up_image.jpg%2Cw_1200%2Cc_scale/v1/products/72775_1.jpg",
   },
   {
     id: "energy-drink",
@@ -156,7 +156,7 @@ export const PRODUCTS: Product[] = [
     description: "Cold energy drink",
     category: "Food & drinks",
     price: 100,
-    image: "https://cdn.mafrservices.com/sys-master-root/hfc/he7/26929882398750/156079_main.jpg?im=Resize%3D480",
+    image: "https://d16zmt6hgq1jhj.cloudfront.net/product/6059/So02KHcdbylgZPhG6SZsznsGHdvHYrk4OwRF9Acx.jpg",
   },
   {
     id: "instant-noodles",
@@ -164,15 +164,15 @@ export const PRODUCTS: Product[] = [
     description: "Quick meal for your room",
     category: "Food & drinks",
     price: 50,
-    image: "https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=900&q=85",
+    image: "https://cdn.mafrservices.com/pim-content/KEN/media/product/24112/1741186804/24112_main.jpg?im=Resize%3D400",
   },
   {
     id: "bread",
     name: "Mafuko sliced bread",
-    description: "Sliced loaf from a Meru bakery",
+    description: "Pre-sliced white loaf from a Meru bakery",
     category: "Essentials",
     price: 80,
-    image: "https://www.businesslist.co.ke/img/ke/z/_1592850477-37-mafuko-industries-ltd.jpg",
+    image: "https://article.innovamarketinsights360.com/articleimgs/article_images/637165823092782555white%20bread%20square.jpeg",
     label: "Meru bakery",
   },
   {
@@ -181,7 +181,7 @@ export const PRODUCTS: Product[] = [
     description: "Everyday kitchen essential",
     category: "Essentials",
     price: 30,
-    image: "https://image.idntimes.com/post/20260305/hampers-sembako-mini-bahan-dapur_9e57a671-b0b7-4938-ba8a-e036aaa834ac.jpg",
+    image: "https://cdn.mafrservices.com/sys-master-root/hf8/hea/52644034871326/8033_main.jpg?im=Resize%3D400",
   },
   {
     id: "milk",
@@ -189,7 +189,7 @@ export const PRODUCTS: Product[] = [
     description: "Milk for tea or breakfast",
     category: "Essentials",
     price: 70,
-    image: "https://eastmatt.com/ios1/itemimages/foodstuffs_two.jpeg",
+    image: "https://cdnprod.mafretailproxy.com/sys-master-root/hfc/hef/27062194438174/43281_main.jpg_480Wx480H",
   },
   {
     id: "maize-flour",
@@ -197,15 +197,15 @@ export const PRODUCTS: Product[] = [
     description: "Flour for home-style ugali",
     category: "Essentials",
     price: 160,
-    image: "https://assets.kenyanwallstreet.com/assets/282ab65a-412e-4ecd-aa0b-86b1f4d08af8.jpg",
+    image: "https://img.oaks.delivery/cdn-cgi/image/width%3D800%2Cfit%3Dscale-down%2Cformat%3Dauto/products/jo3740/51aed46832ca-640.webp",
   },
   {
     id: "sugar",
     name: "Sugar 1kg",
-    description: "Everyday pantry essential",
+    description: "White granulated sugar",
     category: "Essentials",
     price: 170,
-    image: "https://eastmatt.com/ios1/itemimages/foodstuffs_two.jpeg",
+    image: "",
   },
   {
     id: "cooking-oil",
@@ -230,7 +230,7 @@ export const PRODUCTS: Product[] = [
     description: "Everyday bathroom essential",
     category: "Essentials",
     price: 50,
-    image: "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&w=900&q=85",
+    image: "https://d16zmt6hgq1jhj.cloudfront.net/product/6954/cuCG29x4ibXuY2OgUwoj31Xl2JkezGRcfa2PlvLS.png",
   },
   {
     id: "soap",
@@ -238,7 +238,7 @@ export const PRODUCTS: Product[] = [
     description: "Daily personal care",
     category: "Essentials",
     price: 70,
-    image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?auto=format&fit=crop&w=900&q=85",
+    image: "https://cdn.mafrservices.com/sys-master-root/ha7/hfc/17290181050398/34160_main.jpg?im=Resize%3D480",
   },
   {
     id: "toothpaste",
@@ -246,7 +246,7 @@ export const PRODUCTS: Product[] = [
     description: "Daily oral care essential",
     category: "Essentials",
     price: 120,
-    image: "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&w=900&q=85",
+    image: "https://cdn.mafrservices.com/sys-master-root/h80/h9f/31146195091486/29900_main.jpg?im=Resize%3D480",
   },
   {
     id: "avocado",
@@ -270,7 +270,7 @@ export const PRODUCTS: Product[] = [
     description: "A snack for study breaks",
     category: "Essentials",
     price: 50,
-    image: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=900&q=85",
+    image: "https://cdn.mafrservices.com/pim-content/KEN/media/product/212720/1728986403/212720_main.jpg?im=Resize%3D480",
   },
 ];
 

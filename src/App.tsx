@@ -11,9 +11,10 @@ const LocationPicker = lazy(() => import("./LocationPicker"));
 
 type View = "home" | "orders" | "location" | "more";
 type RequestType = "errand" | "parcel";
+type PaymentMethod = "M-PESA on delivery" | "Cash on delivery";
 type MapTarget = "delivery" | "pickup" | "recipient";
 type CartItem = { product: Product; quantity: number };
-type SavedLine = { id: string; name: string; price: number; quantity: number };
+type SavedLine = { id: string; name: string; price: number; quantity: number; description?: string; image?: string };
 type SavedOrder = {
   id: string;
   kind: "shopping" | "errand" | "parcel";
@@ -22,6 +23,7 @@ type SavedOrder = {
   phone: string;
   message: string;
   subtotal: number;
+  paymentMethod?: PaymentMethod;
   items: SavedLine[];
   delivery?: PinLocation | null;
   pickup?: PinLocation | null;
@@ -66,25 +68,7 @@ function formatOrderDate(value: string): string {
 }
 
 function CourierLogo() {
-  return (
-    <svg className="courier-logo" viewBox="0 0 132 72" role="img" aria-label="MeruDash green delivery motorbike">
-      <g fill="none" stroke="#d8b33e" strokeWidth="4.2" strokeLinecap="round">
-        <path d="M4 22h28M1 33h21M9 44h20" />
-      </g>
-      <g fill="none" stroke="#087044" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="39" cy="53" r="12.5" />
-        <circle cx="99" cy="53" r="12.5" />
-        <path d="M39 53 53 35h23l23 18H39l14-18 11 18 13-25h17" />
-        <path d="M82 29h15l8 9M95 27l8-8 8 1" />
-        <path d="M60 14l-8-5 4-7 10 2 6 8-7 6" fill="#087044" stroke="#087044" />
-        <path d="M61 18l-7 14 17 5 10-11-7-8" fill="#087044" stroke="#087044" />
-        <path d="M63 30l-11 5M73 35l-5 18" />
-        <path d="M82 24h19l-4-12h-17z" fill="#087044" stroke="#087044" />
-        <path d="M86 16h10" stroke="#f2d36d" strokeWidth="2.5" />
-      </g>
-      <path d="M111 14h13M114 23h10" stroke="#d8b33e" strokeWidth="3.4" strokeLinecap="round" />
-    </svg>
-  );
+  return <img className="courier-logo" src="/merudash-rider.webp" alt="MeruDash speeding green motorbike rider" />;
 }
 
 function MessageCircleIcon() {
@@ -99,7 +83,7 @@ function MessageCircleIcon() {
 
 function ProductImage({ src, alt, compact = false }: { src: string; alt: string; compact?: boolean }) {
   const [failed, setFailed] = useState(false);
-  if (failed) {
+  if (failed || !src) {
     return (
       <div className={"product-placeholder" + (compact ? " compact" : "")} role="img" aria-label={alt}>
         <ShoppingBag size={compact ? 18 : 24} />
@@ -110,7 +94,7 @@ function ProductImage({ src, alt, compact = false }: { src: string; alt: string;
   return <img src={src} alt={alt} loading="lazy" onError={() => setFailed(true)} />;
 }
 
-function BottomNavigation({ active, onChange }: { active: View; onChange: (view: View) => void }) {
+function BottomNavigation({ active, onChange, count }: { active: View; onChange: (view: View) => void; count: number }) {
   const items = [
     { id: "home" as const, label: "Home", icon: Home },
     { id: "orders" as const, label: "Orders", icon: ClipboardList },
@@ -124,7 +108,9 @@ function BottomNavigation({ active, onChange }: { active: View; onChange: (view:
         return (
           <button className={"bottom-nav-item" + (active === item.id ? " active" : "")} key={item.id}
             onClick={() => onChange(item.id)} aria-current={active === item.id ? "page" : undefined}>
-            <Icon size={21} strokeWidth={active === item.id ? 2.6 : 2.1} /><span>{item.label}</span>
+            <Icon size={21} strokeWidth={active === item.id ? 2.6 : 2.1} />
+            <span>{item.label}</span>
+            {item.id === "orders" && count > 0 && <b className="nav-count">{count > 99 ? "99+" : count}</b>}
           </button>
         );
       })}
@@ -184,6 +170,7 @@ function App() {
   const [pickupLocation, setPickupLocation] = useState<PinLocation | null>(null);
   const [recipientLocation, setRecipientLocation] = useState<PinLocation | null>(null);
   const [commitmentConfirmed, setCommitmentConfirmed] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(() => readStorage<PaymentMethod>("merudash-payment-method", "M-PESA on delivery"));
   const [editingOrderId, setEditingOrderId] = useState<string | null>(null);
   const [toast, setToast] = useState("");
   const [moreExpanded, setMoreExpanded] = useState<number | null>(0);
@@ -199,6 +186,9 @@ function App() {
     window.localStorage.setItem("merudash-name", customerName);
     window.localStorage.setItem("merudash-phone", customerPhone);
   }, [customerName, customerPhone]);
+  useEffect(() => {
+    window.localStorage.setItem("merudash-payment-method", paymentMethod);
+  }, [paymentMethod]);
 
   const subtotal = useMemo(() => cart.reduce((sum, item) => sum + item.product.price * item.quantity, 0), [cart]);
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -229,6 +219,11 @@ function App() {
     setCart((current) => current
       .map((item) => item.product.id === id ? { ...item, quantity: item.quantity + change } : item)
       .filter((item) => item.quantity > 0));
+  };
+
+  const removeFromCart = (productId: string) => {
+    setCart((current) => current.filter((item) => item.product.id !== productId));
+    setToast("Item removed from your basket");
   };
 
   const openMap = (target: MapTarget) => {
@@ -280,6 +275,7 @@ function App() {
     const id = editingOrderId || createOrderId();
     const lines: SavedLine[] = cart.map((item) => ({
       id: item.product.id, name: item.product.name, price: item.product.price, quantity: item.quantity,
+      description: item.product.description, image: item.product.image,
     }));
     const mapLink = "https://www.google.com/maps?q=" + deliveryLocation.lat + "," + deliveryLocation.lng;
     const message = [
@@ -300,14 +296,14 @@ function App() {
       "Coordinates: " + deliveryLocation.lat.toFixed(6) + ", " + deliveryLocation.lng.toFixed(6),
       "Map: " + mapLink,
       "",
-      "Payment: Pay on delivery.",
-      "I confirm this is a genuine order. I will be available at the pinned location and pay the agreed total on delivery.",
-      "Please confirm item availability and the delivery fee before dispatch.",
+      "Payment method: " + paymentMethod,
+      "Commitment: I will be available at the pinned location and pay by " + paymentMethod + " when the order arrives.",
+      "Please confirm item availability, the final delivery fee and estimated arrival time before dispatch.",
     ].join("\n");
 
     saveOrder({
       id, kind: "shopping", createdAt: new Date().toISOString(), name: customerName.trim(),
-      phone: normalizedPhone, message, subtotal, items: lines, delivery: deliveryLocation,
+      phone: normalizedPhone, message, subtotal, paymentMethod, items: lines, delivery: deliveryLocation,
     });
     setCart([]);
     setCheckoutOpen(false);
@@ -350,15 +346,15 @@ function App() {
       );
     }
     lines.push(
-      "", "Payment: Confirm the total and payment arrangement before dispatch.",
-      "I confirm this is a genuine request. I will be available at the agreed point and pay the agreed charge.",
+      "", "Payment method: " + paymentMethod,
+      "I confirm this is a genuine request. I will be available at the agreed point and pay by " + paymentMethod + " when it arrives.",
       "Please confirm availability and the final charge before dispatch.",
     );
 
     const message = lines.join("\n");
     saveOrder({
       id, kind: requestType, createdAt: new Date().toISOString(), name: customerName.trim(),
-      phone: normalizedPhone, message, subtotal: 0, items: [],
+      phone: normalizedPhone, message, subtotal: 0, paymentMethod, items: [],
       delivery: requestType === "errand" ? deliveryLocation : null,
       pickup: pickupLocation, recipient: recipientLocation,
     });
@@ -396,16 +392,53 @@ function App() {
         "Final total: To be confirmed with me on WhatsApp.",
         "",
         "DELIVERY POINT",
+        "Area: Meru University / MUST campus",
         "Landmark: " + (order.delivery?.landmark || "See map pin"),
+        "Coordinates: " + (order.delivery ? order.delivery.lat.toFixed(6) + ", " + order.delivery.lng.toFixed(6) : "To be confirmed"),
         ...(mapLink ? ["Map: " + mapLink] : []),
         "",
-        "Payment: Pay on delivery.",
-        "I confirm I can receive this order and pay the agreed total on delivery.",
+        "Payment method: " + (order.paymentMethod || "M-PESA on delivery"),
+        "I confirm I can receive this order and pay the agreed amount on delivery.",
         "Please confirm availability and the delivery fee before dispatch.",
       ].join("\n");
       return { ...order, items, subtotal: nextSubtotal, message };
     }));
     setToast("Order updated. Send the latest details on WhatsApp.");
+  };
+
+  const removeSavedOrderItem = (orderId: string, productId: string) => {
+    setOrders((current) => current.map((order) => {
+      if (order.id !== orderId || order.kind !== "shopping") return order;
+      const items = order.items.filter((item) => item.id !== productId);
+      const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const mapLink = order.delivery
+        ? "https://www.google.com/maps?q=" + order.delivery.lat + "," + order.delivery.lng
+        : "";
+      const message = [
+        "MERUDASH UPDATED ORDER · " + order.id,
+        "",
+        "Name: " + order.name,
+        "Phone: " + order.phone,
+        "",
+        "ITEMS",
+        ...items.map((item) => item.quantity + " × " + item.name + " — " + formatKES(item.price * item.quantity)),
+        "",
+        "Items subtotal: " + formatKES(subtotal),
+        "Delivery fee: Please confirm before dispatch.",
+        "Final total: To be confirmed with me on WhatsApp.",
+        "",
+        "DELIVERY POINT",
+        "Area: Meru University / MUST campus",
+        "Landmark: " + (order.delivery?.landmark || "See map pin"),
+        "Coordinates: " + (order.delivery ? order.delivery.lat.toFixed(6) + ", " + order.delivery.lng.toFixed(6) : "To be confirmed"),
+        ...(mapLink ? ["Map: " + mapLink] : []),
+        "",
+        "Payment method: " + (order.paymentMethod || "M-PESA on delivery"),
+        "I confirm I can receive this order and pay the agreed amount on delivery.",
+      ].join("\n");
+      return { ...order, items, subtotal, message };
+    }));
+    setToast("Item removed from saved order");
   };
 
   const editSavedOrder = (order: SavedOrder) => {
@@ -431,6 +464,7 @@ function App() {
     }
     setCustomerName(order.name);
     setCustomerPhone(order.phone);
+    setPaymentMethod(order.paymentMethod || "M-PESA on delivery");
     setEditingOrderId(order.id);
     setView("home");
     setCartOpen(true);
@@ -564,74 +598,182 @@ function App() {
 
         {view === "orders" && (
           <section className="subpage">
-            <div className="subpage-heading"><span className="section-kicker">YOUR ACTIVITY</span><h1>Your orders</h1><p>Keep your requests and order references in one place.</p></div>
-            {orders.length === 0 ? (
-              <div className="empty-state">
-                <span className="empty-state-icon"><ClipboardList size={29} /></span>
-                <h2>No orders yet</h2>
-                <p>Orders you send to WhatsApp will be kept here on this phone.</p>
-                <button className="primary-button" onClick={() => setView("home")}>Find something <ArrowRight size={16} /></button>
+            <div className="subpage-heading">
+              <span className="section-kicker">YOUR BASKET & REQUESTS</span>
+              <h1>My orders</h1>
+              <p>Check your items, change quantities or continue to checkout.</p>
+            </div>
+
+            <section className="active-basket-card" aria-labelledby="basket-heading">
+              <div className="basket-heading-row">
+                <div><span className="section-kicker">CURRENT BASKET</span><h2 id="basket-heading">Your items</h2></div>
+                <span className="basket-count">{itemCount} {itemCount === 1 ? "item" : "items"}</span>
               </div>
-            ) : (
-              <div className="orders-list">
-                {orders.map((order) => (
-                  <article className="order-card" key={order.id}>
-                    <div className="order-card-top">
-                      <div><span className="order-type">{order.kind === "shopping" ? "SHOPPING ORDER" : order.kind === "parcel" ? "PARCEL REQUEST" : "ERRAND REQUEST"}</span><strong>{order.id}</strong></div>
-                      <span className="order-state">Saved on this phone</span>
-                    </div>
-                    <div className="order-card-meta"><span>{formatOrderDate(order.createdAt)}</span><span>{order.items.length ? order.items.reduce((sum, item) => sum + item.quantity, 0) + " items" : "Custom request"}</span></div>
-                    {order.items.length > 0 && (
-                      <div className="order-lines order-lines-editable">
-                        {order.items.map((item) => (
-                          <div className="order-line-edit" key={item.id}>
-                            <span><strong>{item.name}</strong><small>{formatKES(item.price * item.quantity)}</small></span>
-                            <div className="quantity-control">
-                              <button onClick={() => updateSavedOrderQuantity(order.id, item.id, -1)} aria-label={"Remove one " + item.name}><Minus size={13} /></button>
-                              <b>{item.quantity}</b>
-                              <button onClick={() => updateSavedOrderQuantity(order.id, item.id, 1)} aria-label={"Add one " + item.name}><Plus size={13} /></button>
-                            </div>
+              {cart.length === 0 ? (
+                <div className="basket-empty">
+                  <ShoppingBag size={25} />
+                  <strong>Your basket is empty</strong>
+                  <span>Add food or essentials to see them here.</span>
+                  <button className="primary-button" onClick={() => setView("home")}>Browse items <ArrowRight size={15} /></button>
+                </div>
+              ) : (
+                <>
+                  <div className="basket-item-list">
+                    {cart.map((item) => (
+                      <article className="basket-item" key={item.product.id}>
+                        <ProductImage src={item.product.image} alt={item.product.name} compact />
+                        <div className="basket-item-info">
+                          <strong>{item.product.name}</strong>
+                          <small>{item.product.description}</small>
+                          <span>{formatKES(item.product.price)} each</span>
+                          <b>{formatKES(item.product.price * item.quantity)}</b>
+                        </div>
+                        <div className="basket-item-actions">
+                          <div className="quantity-control">
+                            <button onClick={() => updateQuantity(item.product.id, -1)} aria-label={"Decrease " + item.product.name}><Minus size={13} /></button>
+                            <b>{item.quantity}</b>
+                            <button onClick={() => updateQuantity(item.product.id, 1)} aria-label={"Increase " + item.product.name}><Plus size={13} /></button>
                           </div>
-                        ))}
+                          <button className="basket-remove-button" onClick={() => removeFromCart(item.product.id)} aria-label={"Remove " + item.product.name}>
+                            <Trash2 size={15} /><span>Remove</span>
+                          </button>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                  <div className="basket-total-block">
+                    <div><span>Items subtotal</span><strong>{formatKES(subtotal)}</strong></div>
+                    <div><span>Delivery fee</span><strong>Confirmed before dispatch</strong></div>
+                    <div className="basket-grand-total"><span>Amount before delivery</span><strong>{formatKES(subtotal)}</strong></div>
+                    <button className="primary-button full-width" onClick={() => { setCheckoutOpen(true); setCommitmentConfirmed(false); }}>
+                      Continue to checkout <ArrowRight size={17} />
+                    </button>
+                    <p>Final delivery charge and total are agreed with you before dispatch.</p>
+                  </div>
+                </>
+              )}
+            </section>
+
+            {orders.length > 0 && (
+              <section className="saved-orders-section">
+                <div className="basket-heading-row">
+                  <div><span className="section-kicker">RECENT REQUESTS</span><h2>Order history</h2></div>
+                  <span className="basket-count">{orders.length}</span>
+                </div>
+                <div className="orders-list">
+                  {orders.map((order) => (
+                    <article className="order-card" key={order.id}>
+                      <div className="order-card-top">
+                        <div>
+                          <span className="order-type">{order.kind === "shopping" ? "SHOPPING ORDER" : order.kind === "parcel" ? "PARCEL REQUEST" : "ERRAND REQUEST"}</span>
+                          <strong>{order.id}</strong>
+                        </div>
+                        <span className="order-state">Saved on this phone</span>
                       </div>
-                    )}
-                    {order.subtotal > 0 && <div className="order-subtotal"><span>Items subtotal</span><strong>{formatKES(order.subtotal)}</strong></div>}
-                    {order.delivery && <p className="order-location-note"><MapPin size={13} /> {order.delivery.landmark || "MUST campus pin"}</p>}
-                    <div className="order-tracking-strip">
-                      <span className="tracking-step done"><i><Check size={11} /></i><b>Saved here</b></span>
-                      <span className="tracking-line" />
-                      <span className="tracking-step"><i>2</i><b>Send / confirm</b></span>
-                      <span className="tracking-line" />
-                      <span className="tracking-step"><i>3</i><b>Delivery</b></span>
-                    </div>
-                    <div className="order-card-actions">
-                      {order.kind === "shopping" && <button className="order-edit-button" onClick={() => editSavedOrder(order)}>Edit items <Plus size={14} /></button>}
-                      <button className="order-whatsapp-button" onClick={() => openSavedOrder(order)}>Continue in WhatsApp <ArrowRight size={16} /></button>
-                      <button className="order-delete-button" onClick={() => deleteSavedOrder(order.id)} aria-label={"Delete " + order.id}><X size={15} /></button>
-                    </div>
-                  </article>
-                ))}
-              </div>
+                      <div className="order-card-meta">
+                        <span>{formatOrderDate(order.createdAt)}</span>
+                        <span>{order.items.length ? order.items.reduce((sum, item) => sum + item.quantity, 0) + " items" : "Custom request"}</span>
+                      </div>
+                      {order.items.length > 0 && (
+                        <div className="saved-order-lines">
+                          {order.items.map((item) => {
+                            const product = PRODUCTS.find((entry) => entry.id === item.id);
+                            return (
+                              <div className="saved-order-line" key={item.id}>
+                                <ProductImage src={item.image || product?.image || ""} alt={item.name} compact />
+                                <div className="saved-order-line-info">
+                                  <strong>{item.name}</strong>
+                                  <small>{item.description || product?.description || "Campus item"}</small>
+                                  <span>{formatKES(item.price)} each</span>
+                                  <b>{formatKES(item.price * item.quantity)}</b>
+                                </div>
+                                <div className="saved-order-line-actions">
+                                  <div className="quantity-control">
+                                    <button onClick={() => updateSavedOrderQuantity(order.id, item.id, -1)} aria-label={"Decrease " + item.name}><Minus size={12} /></button>
+                                    <b>{item.quantity}</b>
+                                    <button onClick={() => updateSavedOrderQuantity(order.id, item.id, 1)} aria-label={"Increase " + item.name}><Plus size={12} /></button>
+                                  </div>
+                                  <button className="basket-remove-button" onClick={() => removeSavedOrderItem(order.id, item.id)} aria-label={"Remove " + item.name + " from saved order"}>
+                                    <Trash2 size={14} /><span>Remove</span>
+                                  </button>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                      {order.subtotal > 0 && <div className="order-subtotal"><span>Items subtotal</span><strong>{formatKES(order.subtotal)}</strong></div>}
+                      {order.paymentMethod && <p className="order-location-note"><Banknote size={13} /> {order.paymentMethod}</p>}
+                      {order.delivery && (
+                        <div className="saved-order-location">
+                          <MapPin size={14} />
+                          <div>
+                            <strong>{order.delivery.landmark || "MUST Main Campus pin"}</strong>
+                            <small>{order.delivery.lat.toFixed(5)}, {order.delivery.lng.toFixed(5)}</small>
+                          </div>
+                          <a href={"https://www.google.com/maps?q=" + order.delivery.lat + "," + order.delivery.lng} target="_blank" rel="noreferrer">Map</a>
+                        </div>
+                      )}
+                      <div className="order-tracking-strip">
+                        <span className="tracking-step done"><i><Check size={11} /></i><b>Saved here</b></span>
+                        <span className="tracking-line" />
+                        <span className="tracking-step"><i>2</i><b>Team confirmation</b></span>
+                        <span className="tracking-line" />
+                        <span className="tracking-step"><i>3</i><b>Delivery</b></span>
+                      </div>
+                      <div className="order-card-actions">
+                        {order.kind === "shopping" && <button className="order-edit-button" onClick={() => editSavedOrder(order)}>Edit items <Plus size={14} /></button>}
+                        <button className="order-whatsapp-button" onClick={() => openSavedOrder(order)}>Continue in WhatsApp <ArrowRight size={16} /></button>
+                        <button className="order-delete-button" onClick={() => deleteSavedOrder(order.id)} aria-label={"Delete " + order.id}><X size={15} /></button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
             )}
-            <p className="local-note">Orders are saved on this device. The team confirms availability, the final delivery charge and delivery updates in WhatsApp.</p>
+            <p className="local-note">The basket and request history are saved on this device. A request is confirmed only after the team replies on WhatsApp.</p>
           </section>
         )}
 
         {view === "location" && (
           <section className="subpage">
-            <div className="subpage-heading"><span className="section-kicker">MEET YOUR RIDER</span><h1>Your location</h1><p>Pin the exact place around MUST where you want to meet.</p></div>
+            <div className="subpage-heading">
+              <span className="section-kicker">DELIVERY LOCATION</span>
+              <h1>Track your delivery</h1>
+              <p>Your chosen meeting point and the latest order update.</p>
+            </div>
+            {orders[0] && (
+              <div className="delivery-update-card">
+                <div>
+                  <span className="section-kicker">LATEST REQUEST</span>
+                  <strong>{orders[0].id}</strong>
+                  <small>Saved on this phone · Awaiting team confirmation</small>
+                </div>
+                <button onClick={() => openWhatsApp("Hello MeruDash, please share an update for my request " + orders[0].id + ".")}>
+                  Ask for update <MessageCircleIcon />
+                </button>
+              </div>
+            )}
             <div className="location-screen-card">
-              <div className="location-screen-map"><MapPin size={34} fill="currentColor" /><span>MUST Main Campus</span></div>
+              <button className="location-screen-map" onClick={() => openMap("delivery")} aria-label="Change delivery point on map">
+                <MapPin size={34} fill="currentColor" />
+                <span>{deliveryLocation ? "Pinned point around MUST" : "MUST Main Campus"}</span>
+                <small>Tap to set or adjust your pin</small>
+              </button>
               <div className="location-screen-details">
                 <span className="detail-kicker">SAVED DELIVERY POINT</span>
-                <strong>{deliveryLocation ? (deliveryLocation.landmark || "MUST Main Campus") : "No location saved yet"}</strong>
-                {deliveryLocation && <small>{deliveryLocation.lat.toFixed(5)}, {deliveryLocation.lng.toFixed(5)}</small>}
+                <strong>{deliveryLocation?.landmark || (deliveryLocation ? "MUST Main Campus area" : "No location saved yet")}</strong>
+                {deliveryLocation && (
+                  <>
+                    <small className="location-coordinate-text">{deliveryLocation.lat.toFixed(6)}, {deliveryLocation.lng.toFixed(6)}</small>
+                    <a className="map-external-link" href={"https://www.google.com/maps?q=" + deliveryLocation.lat + "," + deliveryLocation.lng} target="_blank" rel="noreferrer">Open pinned point in Maps <ArrowRight size={14} /></a>
+                  </>
+                )}
                 <button className="primary-button full-width" onClick={() => openMap("delivery")}>{deliveryLocation ? "Change location" : "Pin my location"} <MapPin size={16} /></button>
-                {deliveryLocation && <a className="map-external-link" href={"https://www.google.com/maps?q=" + deliveryLocation.lat + "," + deliveryLocation.lng} target="_blank" rel="noreferrer">Preview on Google Maps <ArrowRight size={14} /></a>}
               </div>
             </div>
-            <div className="location-tip"><Compass size={20} /><span><strong>A nearby landmark helps.</strong><small>For example: outside the library, hostel gate or Block A entrance.</small></span></div>
-            <p className="local-note">This pin is your saved meeting point. It does not show a live rider position.</p>
+            <div className="location-tip"><Compass size={20} /><span><strong>Make the handover easy.</strong><small>Share a clear landmark such as outside the library, hostel gate or Block A entrance.</small></span></div>
+            <p className="local-note">The map pin and landmark are included in each order sent to WhatsApp. Live rider GPS is not connected yet; ask the team for a delivery update on WhatsApp.</p>
           </section>
         )}
 
@@ -665,7 +807,7 @@ function App() {
         )}
       </main>
 
-      <BottomNavigation active={view} onChange={setView} />
+      <BottomNavigation active={view} onChange={setView} count={itemCount} />
 
       {cartOpen && (
         <div className="sheet-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setCartOpen(false); }}>
@@ -732,12 +874,20 @@ function App() {
                 <div><span>Delivery fee</span><strong>Confirm on WhatsApp</strong></div>
                 <div className="checkout-grand-total"><span>Final total</span><strong>{formatKES(subtotal)} + delivery</strong></div>
               </div>
-              <div className="payment-choice">
-                <span className="payment-icon"><ShoppingBag size={19} /></span><div><strong>Pay on delivery</strong><small>Confirm the final amount before dispatch.</small></div><Check size={17} />
+              <div className="payment-method-picker">
+                <span className="form-field-label">How will you pay when it arrives?</span>
+                <div className="payment-method-options">
+                  <button type="button" className={"payment-method-option" + (paymentMethod === "M-PESA on delivery" ? " selected" : "")} onClick={() => setPaymentMethod("M-PESA on delivery")}>
+                    <Smartphone size={19} /><span><strong>M-PESA</strong><small>Pay the rider on delivery</small></span>{paymentMethod === "M-PESA on delivery" && <Check size={16} />}
+                  </button>
+                  <button type="button" className={"payment-method-option" + (paymentMethod === "Cash on delivery" ? " selected" : "")} onClick={() => setPaymentMethod("Cash on delivery")}>
+                    <Banknote size={19} /><span><strong>Cash</strong><small>Pay when your order arrives</small></span>{paymentMethod === "Cash on delivery" && <Check size={16} />}
+                  </button>
+                </div>
               </div>
               <label className="commitment-check">
                 <input type="checkbox" checked={commitmentConfirmed} onChange={(event) => setCommitmentConfirmed(event.target.checked)} />
-                <span>I’m placing a genuine order. I can receive it at this pin and pay the agreed total on delivery.</span>
+                <span>I confirm this is a genuine order. I will be at the pinned location and pay by {paymentMethod} once the final amount is agreed.</span>
               </label>
               <button className="whatsapp-submit" type="submit"><MessageCircleIcon /> {editingOrderId ? "Update order on WhatsApp" : "Send order on WhatsApp"} <ArrowRight size={17} /></button>
               <p className="form-footnote">Your order is only dispatched after the team confirms availability and you approve the final delivery charge.</p>
@@ -765,9 +915,16 @@ function App() {
               ) : (
                 <button type="button" className="request-location-row" onClick={() => openMap("delivery")}><MapPin size={18} /><span><strong>Delivery point</strong><small>{deliveryLocation?.landmark || (deliveryLocation ? "Pin saved" : "Pin where to meet")}</small></span><ChevronRight size={18} /></button>
               )}
+              <div className="payment-method-picker compact-payment-picker">
+                <span className="form-field-label">Payment on delivery</span>
+                <div className="payment-method-options">
+                  <button type="button" className={"payment-method-option" + (paymentMethod === "M-PESA on delivery" ? " selected" : "")} onClick={() => setPaymentMethod("M-PESA on delivery")}><Smartphone size={18} /><span><strong>M-PESA</strong><small>On delivery</small></span>{paymentMethod === "M-PESA on delivery" && <Check size={15} />}</button>
+                  <button type="button" className={"payment-method-option" + (paymentMethod === "Cash on delivery" ? " selected" : "")} onClick={() => setPaymentMethod("Cash on delivery")}><Banknote size={18} /><span><strong>Cash</strong><small>On delivery</small></span>{paymentMethod === "Cash on delivery" && <Check size={15} />}</button>
+                </div>
+              </div>
               <label className="commitment-check">
                 <input type="checkbox" checked={commitmentConfirmed} onChange={(event) => setCommitmentConfirmed(event.target.checked)} />
-                <span>This is a genuine request. I’ll be available at the agreed point and pay the confirmed charge.</span>
+                <span>This is a genuine request. I will be available at the agreed point and pay by {paymentMethod} when it arrives.</span>
               </label>
               <button className="whatsapp-submit" type="submit"><MessageCircleIcon /> Send request on WhatsApp <ArrowRight size={17} /></button>
               <p className="form-footnote">The team confirms the request and charge with you before dispatch.</p>

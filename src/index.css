@@ -401,3 +401,329 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .order-edit-button { padding: 0 7px; font-size: 8px; }
   .order-card-actions .order-whatsapp-button { font-size: 8px; gap: 5px; }
 }
+
+
+/* Brand rider asset: transparent artwork replaces the hand-drawn mark */
+.courier-logo {
+  display: block;
+  width: 108px;
+  height: 58px;
+  object-fit: contain;
+  object-position: left center;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 2px 2px rgba(14, 47, 27, .08));
+}
+.brand-name-wrap strong { letter-spacing: -.055em; }
+.nav-count {
+  position: absolute;
+  top: 3px;
+  right: 24%;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--paper);
+  border-radius: 20px;
+  color: #fff;
+  background: var(--green);
+  font-size: 8px;
+  line-height: 1;
+}
+
+.active-basket-card {
+  overflow: hidden;
+  border: 1px solid #e1e8dc;
+  border-radius: 17px;
+  background: #fff;
+}
+.basket-heading-row {
+  padding: 14px 15px 12px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 10px;
+}
+.basket-heading-row h2 {
+  margin: 0;
+  color: #26372c;
+  font: 800 18px/1.15 "Manrope", sans-serif;
+  letter-spacing: -.04em;
+}
+.basket-count {
+  min-width: 28px;
+  min-height: 25px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  color: #0a603b;
+  background: #eaf4e6;
+  font-size: 9px;
+  font-weight: 800;
+}
+.basket-empty {
+  min-height: 180px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  color: #0a7144;
+  text-align: center;
+  border-top: 1px solid #eff0e9;
+}
+.basket-empty strong { color: #29392f; font-size: 12px; }
+.basket-empty span { color: #819084; font-size: 9px; }
+.basket-empty .primary-button { margin-top: 6px; }
+.basket-item-list { border-top: 1px solid #edf0e9; }
+.basket-item {
+  min-width: 0;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid #eff0e9;
+}
+.basket-item > .product-placeholder,
+.basket-item > img {
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  border-radius: 11px;
+  object-fit: cover;
+}
+.basket-item .product-placeholder { padding: 5px; }
+.basket-item .product-placeholder span { font-size: 7px; }
+.basket-item-info {
+  min-width: 0;
+  flex: 1;
+  display: grid;
+  gap: 3px;
+}
+.basket-item-info strong {
+  overflow: hidden;
+  color: #27382d;
+  font: 800 11px/1.25 "Manrope", sans-serif;
+  text-overflow: ellipsis;
+}
+.basket-item-info small {
+  overflow: hidden;
+  color: #78877c;
+  font-size: 8px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+}
+.basket-item-info > span { color: #879287; font-size: 8px; }
+.basket-item-info > b { color: var(--green); font-size: 10px; }
+.basket-item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+}
+.basket-item-actions .quantity-control { gap: 5px; min-height: 28px; }
+.basket-item-actions .quantity-control button { width: 25px; height: 25px; }
+.basket-item-actions .quantity-control b { font-size: 9px; }
+.basket-remove-button {
+  min-height: 24px;
+  padding: 0 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  color: #a54e40;
+  background: transparent;
+  font-size: 8px;
+  font-weight: 700;
+}
+.basket-total-block {
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+  background: #fcfcf8;
+}
+.basket-total-block > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #6e7b70;
+  font-size: 10px;
+}
+.basket-total-block > div strong { color: #2c3b30; }
+.basket-total-block > div:nth-child(2) strong {
+  color: #8b7840;
+  font-size: 9px;
+  text-align: right;
+}
+.basket-total-block .basket-grand-total {
+  padding: 10px;
+  border-radius: 10px;
+  color: #25372b;
+  background: #eaf3e3;
+  font-size: 11px;
+  font-weight: 800;
+}
+.basket-total-block .basket-grand-total strong { color: var(--green-dark); font-size: 13px; }
+.basket-total-block p {
+  margin: -2px 0 0;
+  color: #899388;
+  font-size: 8px;
+  line-height: 1.45;
+  text-align: center;
+}
+.saved-orders-section { margin-top: 22px; }
+.saved-order-lines {
+  margin-top: 11px;
+  padding-top: 7px;
+  display: grid;
+  border-top: 1px solid #eff0e9;
+}
+.saved-order-line {
+  min-width: 0;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-bottom: 1px solid #f0f1ec;
+}
+.saved-order-line > img,
+.saved-order-line > .product-placeholder {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  border-radius: 9px;
+  object-fit: cover;
+}
+.saved-order-line .product-placeholder { padding: 4px; gap: 1px; }
+.saved-order-line .product-placeholder span { font-size: 6px; }
+.saved-order-line-info {
+  min-width: 0;
+  flex: 1;
+  display: grid;
+  gap: 2px;
+}
+.saved-order-line-info strong {
+  overflow: hidden;
+  color: #314036;
+  font-size: 9px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.saved-order-line-info small {
+  overflow: hidden;
+  color: #839084;
+  font-size: 7px;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+}
+.saved-order-line-info span { color: #8c968c; font-size: 7px; }
+.saved-order-line-info b { color: var(--green); font-size: 9px; }
+.saved-order-line-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+}
+.saved-order-line-actions .quantity-control { min-height: 26px; gap: 4px; }
+.saved-order-line-actions .quantity-control button { width: 23px; height: 23px; }
+.saved-order-line-actions .quantity-control b { font-size: 8px; }
+.saved-order-location {
+  margin-top: 10px;
+  padding: 9px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+  color: var(--green);
+  background: #f2f7ee;
+}
+.saved-order-location > div { min-width: 0; flex: 1; display: grid; gap: 3px; }
+.saved-order-location strong { overflow: hidden; color: #3a4b3e; font-size: 8px; text-overflow: ellipsis; }
+.saved-order-location small { color: #859286; font-size: 7px; }
+.saved-order-location a { color: var(--green); font-size: 8px; font-weight: 800; }
+.order-location-note { display: flex; align-items: center; gap: 5px; }
+
+.payment-method-picker { margin: 10px 0 4px; }
+.form-field-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #4c5b50;
+  font-size: 9px;
+  font-weight: 800;
+}
+.payment-method-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.payment-method-option {
+  min-height: 61px;
+  padding: 9px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #e0e5dc;
+  border-radius: 11px;
+  color: #66756a;
+  background: #fff;
+  text-align: left;
+}
+.payment-method-option.selected {
+  border-color: #8bb394;
+  color: var(--green);
+  background: #f0f7ec;
+  box-shadow: inset 0 0 0 1px rgba(8,112,68,.07);
+}
+.payment-method-option > span { min-width: 0; flex: 1; display: grid; gap: 3px; }
+.payment-method-option strong { color: #304036; font-size: 9px; }
+.payment-method-option small { color: #849085; font-size: 7px; line-height: 1.25; }
+.compact-payment-picker { margin-top: 9px; }
+
+.delivery-update-card {
+  margin: 0 0 13px;
+  padding: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid #e1e9dc;
+  border-radius: 14px;
+  background: #f2f7ee;
+}
+.delivery-update-card > div { min-width: 0; display: grid; gap: 4px; }
+.delivery-update-card > div > strong { color: #273a2e; font: 800 13px "Manrope",sans-serif; }
+.delivery-update-card > div > small { color: #78877b; font-size: 8px; }
+.delivery-update-card button {
+  min-height: 36px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 0;
+  border-radius: 9px;
+  color: #fff;
+  background: #0b7044;
+  font-size: 8px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.delivery-update-card button svg { width: 14px; height: 14px; }
+.location-screen-map {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+}
+.location-screen-map small { color: #768a79; font-size: 8px; }
+.location-coordinate-text { color: #78877d !important; font-size: 8px !important; }
+
+@media (max-width: 390px) {
+  .courier-logo { width: 90px; height: 52px; }
+  .basket-item { padding: 10px 8px; gap: 8px; }
+  .basket-item > img, .basket-item > .product-placeholder { width: 65px; height: 65px; flex-basis: 65px; }
+  .basket-item-info strong { font-size: 10px; }
+  .basket-item-info small { font-size: 7px; }
+  .basket-item-actions .quantity-control { gap: 3px; }
+  .payment-method-option { padding: 7px 6px; gap: 5px; }
+  .payment-method-option strong { font-size: 8px; }
+}
