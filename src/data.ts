@@ -177,8 +177,8 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "eggs",
-    name: "Eggs (tray)",
-    description: "Tray of fresh brown eggs",
+    name: "Egg (each)",
+    description: "Fresh brown eggs, sold per piece",
     category: "Essentials",
     price: 30,
     image: "https://cdn.mafrservices.com/sys-master-root/h93/h03/12456986509342/72129_Main.jpg?im=Resize%3D480",
@@ -201,11 +201,11 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "sugar",
-    name: "Sugar 1kg",
+    name: "Mumias sugar 1kg",
     description: "White granulated sugar",
     category: "Essentials",
     price: 170,
-    image: "",
+    image: "https://cdn.mafrservices.com/sys-master-root/hbd/h3c/49893012799518/201293_main.jpg?im=Resize%3D480",
   },
   {
     id: "cooking-oil",
