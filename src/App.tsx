@@ -3,7 +3,7 @@ import type { FormEvent } from "react";
 import {
   ArrowRight, Check, ChevronDown, ChevronRight, ClipboardList, Compass, Home,
   MapPin, Minus, MoreHorizontal, Package, Plus, Search, ShoppingBag, Utensils,
-  X, Zap,
+  X, Zap, Trash2, Smartphone, Banknote,
 } from "lucide-react";
 import { formatKES, PRODUCTS, type PinLocation, type Product, type ProductCategory } from "./data";
 
