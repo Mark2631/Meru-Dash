@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import maplibregl from "maplibre-gl";
+import { Map, Marker, NavigationControl, setWorkerUrl, type MapMouseEvent } from "maplibre-gl";
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
+setWorkerUrl(workerUrl);
 import "maplibre-gl/dist/maplibre-gl.css";
 import { Crosshair, MapPin, Navigation, X } from "lucide-react";
 import { CAMPUS_CENTER, MAP_STYLE, type PinLocation } from "./data";
@@ -22,8 +24,8 @@ export default function LocationPicker({
   onConfirm,
 }: Props) {
   const mapNode = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<maplibregl.Map | null>(null);
-  const markerRef = useRef<maplibregl.Marker | null>(null);
+  const mapRef = useRef<Map | null>(null);
+  const markerRef = useRef<Marker | null>(null);
   const [draft, setDraft] = useState<PinLocation>({
     lat: initial?.lat ?? CAMPUS_CENTER.lat,
     lng: initial?.lng ?? CAMPUS_CENTER.lng,
@@ -52,7 +54,7 @@ export default function LocationPicker({
       initial?.lat ?? CAMPUS_CENTER.lat,
     ] as [number, number];
 
-    const map = new maplibregl.Map({
+    const map = new Map({
       container: mapNode.current,
       style: MAP_STYLE,
       center: start,
@@ -60,9 +62,9 @@ export default function LocationPicker({
     });
 
     mapRef.current = map;
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+    map.addControl(new NavigationControl({ showCompass: false }), "top-right");
 
-    const marker = new maplibregl.Marker({
+    const marker = new Marker({
       color: "#0b633d",
       draggable: true,
     })
@@ -81,7 +83,7 @@ export default function LocationPicker({
     };
 
     marker.on("dragend", updateDraft);
-    map.on("click", (event) => {
+    map.on("click", (event: MapMouseEvent) => {
       marker.setLngLat(event.lngLat);
       updateDraft();
     });
